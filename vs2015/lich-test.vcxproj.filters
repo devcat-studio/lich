@@ -12,9 +12,6 @@
     <ClInclude Include="..\lich\lua.hpp">
       <Filter>lich</Filter>
     </ClInclude>
-    <ClInclude Include="..\lich\pcall.h">
-      <Filter>lich</Filter>
-    </ClInclude>
     <ClInclude Include="..\lich\push.h">
       <Filter>lich</Filter>
     </ClInclude>
@@ -24,21 +21,24 @@
     <ClInclude Include="..\lich\top_guard.h">
       <Filter>lich</Filter>
     </ClInclude>
-    <ClInclude Include="..\lich\push_program.h">
+    <ClInclude Include="..\lich\program.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\xpcall.h">
       <Filter>lich</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\lich\pcall.cpp">
-      <Filter>lich</Filter>
-    </ClCompile>
     <ClCompile Include="..\test\test-main.cpp">
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="..\test\build-lua.c">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="..\lich\push_program.cpp">
+    <ClCompile Include="..\lich\program.cpp">
+      <Filter>lich</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lich\xpcall.cpp">
       <Filter>lich</Filter>
     </ClCompile>
   </ItemGroup>
