@@ -11,6 +11,7 @@ namespace lich
 		const char* name)
 	{
 		int r = luaL_loadbuffer(L, code, code_size, name);
+		assert(lua_gettop(L) == 1);
 		if (r == 0)
 		{
 			return make_pair(true, string());

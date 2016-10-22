@@ -18,6 +18,14 @@ namespace lich
 		size_t code_size,
 		const char* name);
 
+	inline std::pair<bool, std::string> push_program(
+		lua_State* L,
+		const std::string& code,
+		const char* name)
+	{
+		return push_program(L, code.c_str(), code.size(), name);
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// 루아 스크립트를 바로 실행한다.
 	// 여기에 전달한 name은 스택 트레이스 등 디버그 정보에 활용된다.
@@ -25,28 +33,33 @@ namespace lich
 	// 정상 수행되면 <true, ""> 가,
 	// 컴파일 에러 혹은 실행 에러가 발생하면 <false, 에러메시지>가 리턴된다.
 	template<typename RET_TUPLE>
-	std::pair<bool, std::string> run_program(
+	inline std::pair<bool, std::string> run_program(
 		lua_State* L,
 		const char* code,
 		size_t code_size,
 		const char* name,
 		RET_TUPLE& ret)
 	{
+		top_guard _(L);
+		assert(lua_gettop(L) == 0);
 		auto compile_r = push_program(L, code, code_size, name);
+		assert(lua_gettop(L) == 1);
 		if (compile_r.first == false)
 		{
 			return compile_r;
 		}
 		
-		pair<bool, std::string> rv(true, string());
-		auto ehandler = [&rv](const std::string& msg)
-		{
-			rv.first = false;
-			rv.second = msg;
-		};
-
 		tuple<> args;
-		xpcall(L, -1, ehandler, args, ret);
-		return rv;
+		return pcall(L, -1, args, ret);
+	}
+
+	template<typename RET_TUPLE>
+	inline std::pair<bool, std::string> run_program(
+		lua_State* L,
+		const std::string& code,
+		const char* name,
+		RET_TUPLE& ret)
+	{
+		return run_program(L, code.c_str(), code.size(), name, ret);
 	}
 }
