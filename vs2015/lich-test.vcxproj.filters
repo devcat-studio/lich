@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lich">
+      <UniqueIdentifier>{7092f84b-513c-42bb-a61d-f6875325d178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{4b9d52a8-401a-4ba9-92b5-9ada9ab408ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lich\lua.hpp">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\pcall.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\to.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\top_guard.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push_program.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lich\pcall.cpp">
+      <Filter>lich</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\test-main.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\build-lua.c">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lich\push_program.cpp">
+      <Filter>lich</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
