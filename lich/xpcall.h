@@ -1,5 +1,6 @@
 #pragma once
 
+#include "push.h"
 #include "to.h"
 #include "top_guard.h"
 #include <functional>
@@ -16,8 +17,8 @@ namespace lich
 	{
 		template<int I> static void push(lua_State* L, const TUPLE& t)
 		{
-			push(L, std::get<I>(t));
-			for_tuple<TUPLE, LEFT - 1>::push<I + 1>(t);
+			lich::push(L, std::get<I>(t));
+			for_tuple<TUPLE, LEFT - 1>::push<I + 1>(L, t);
 		};
 		template<int I> static void to(lua_State* L, int stack_base, TUPLE& t)
 		{

@@ -18,7 +18,7 @@ using namespace std;
 	}
 
 #define MUST_EQUAL(a, b) \
-	if (a != b) { \
+	if ((a) != (b)) { \
 		cerr << "FAILED: MUST_EQUAL(" << #a << ", " << #b << ")" << endl; \
 		_CrtDbgBreak(); \
 	}
@@ -46,16 +46,35 @@ int main()
 		MUST_EQUAL(get<0>(rv), 42);
 	}
 
-	// run_program/리턴 셋
+	// run_program/여러 타입 리턴
 	{
-		tuple<int, float, double> rv;
-		MUST_EQUAL(
-			lich::run_program(L, "return 5, 7, 3", "", rv),
-			make_pair(true, string()));
-		MUST_EQUAL(get<0>(rv), 5);
+		tuple<string, float, double> rv;
+		auto result = lich::run_program(L, "return '5', 7, 3", "", rv);
+		MUST_EQUAL(result, make_pair(true, string()));
+		MUST_EQUAL(get<0>(rv), "5");
 		MUST_EQUAL(get<1>(rv), 7.0f);
 		MUST_EQUAL(get<2>(rv), 3.0);
 	}
+
+	// push_program + pcall
+	{
+		tuple<> rv0;
+		auto result = lich::run_program(L,
+			"A = function(a, b, c) return c, b, a end", "", rv0);
+		MUST_EQUAL(result, make_pair(true, string()));
+
+		lua_getglobal(L, "A");
+		tuple<string, string, string> rv;
+		result = lich::pcall(L, -1, make_tuple("빗발친다", "정의가", "하늘에서"), rv);
+		MUST_EQUAL(result, make_pair(true, string()));
+		MUST_EQUAL(get<0>(rv), "하늘에서");
+		MUST_EQUAL(get<1>(rv), "정의가");
+		MUST_EQUAL(get<2>(rv), "빗발친다");
+	}
+
+	// run program/컴파일 에러
+
+	// run program/런타임 에러
 
 	lua_close(L);
 

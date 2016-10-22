@@ -19,6 +19,12 @@ namespace lich
 	}
 
 	//-------------------------------------------------------------------------
+	inline void push(lua_State* L, const char* v)
+	{
+		lua_pushstring(L, v);
+	}
+
+	//-------------------------------------------------------------------------
 	template<typename T>
 	inline void push(lua_State* L, const std::vector<T>& vec)
 	{
