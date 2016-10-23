@@ -2,6 +2,7 @@
 
 #include "lua.hpp"
 #include "xpcall.h"
+#include "ref.h"
 #include <utility>
 #include <string>
 #include <tuple>
@@ -25,6 +26,33 @@ namespace lich
 		const char* name)
 	{
 		return push_program(L, code.c_str(), code.size(), name);
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// 루아 스크립트를 로드해서 ref에 담는다.
+	inline std::pair<bool, std::string> load_program(
+		lua_State* L,
+		const char* code,
+		size_t code_size,
+		const char* name,
+		ref& fn_ref)
+	{
+		top_guard _(L);
+		auto rv = push_program(L, code, code_size, name);
+		if (rv.first)
+		{
+			to(L, -1, fn_ref);
+		}
+		return rv;
+	}
+
+	inline std::pair<bool, std::string> load_program(
+		lua_State* L,
+		const std::string& code,
+		const char* name,
+		ref& fn_ref)
+	{
+		return load_program(L, code.c_str(), code.size(), name, fn_ref);
 	}
 
 	///////////////////////////////////////////////////////////////////////////

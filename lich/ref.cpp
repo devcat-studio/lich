@@ -48,8 +48,8 @@ namespace lich
 		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~, &heap_ref_table_registry_key
 		lua_rawget(L, LUA_REGISTRYINDEX);                       // ~, heap_ref_table
 		assert(lua_istable(L, -1) && "didn't call lich::enable_ref()?");
-		lua_pushlightuserdata(L, (void*)&this_); // ~, heap_ref_table, this
-		lua_rawget(L, -2);              // ~, heap_ref_table, v
+		lua_pushlightuserdata(L, (void*)&this_);                // ~, heap_ref_table, this
+		lua_rawget(L, -2);                                      // ~, heap_ref_table, v
 
 		lua_remove(L, old_top + 1);
 		assert(lua_gettop(L) == old_top + 1);
@@ -59,6 +59,7 @@ namespace lich
 	{
 		this_.release();
 
+		idx = unpseudo(L, idx);
 		top_guard _(L);
 
 		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~, &heap_ref_table_registry_key
@@ -83,7 +84,8 @@ namespace lich
 			"\n"
 			"\n return function(t)"
 			"\n	  local n = 0"
-			"\n   for _, _ in pairs(t) do"
+			"\n   for k, v in pairs(t) do"
+			"\n   --  print(k, v)"
 			"\n     n = n + 1"
 			"\n   end"
 			"\n   return n"
@@ -92,6 +94,7 @@ namespace lich
 		tuple<ref> fn;
 		run_program(L, program, strlen(program), "", fn);
 		push(L, get<0>(fn));
+		get<0>(fn).release(); // 이거 때문에 한 개 더 잡힘;;
 
 		lua_pushlightuserdata(L, &heap_ref_table_registry_key);
 		lua_rawget(L, LUA_REGISTRYINDEX);
@@ -106,12 +109,16 @@ namespace lich
 #ifdef _DEBUG
 		int old_top = lua_gettop(L);
 #endif
+		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~,&heap_ref_table_registry_key
+		lua_rawget(L, LUA_REGISTRYINDEX);                       // ~,&heap_ref_table_registry_key, heap_ref_table?
+		assert(lua_isnil(L, -1) && "lich::enable_ref() must be called once and only once.");
+		lua_pop(L, 1);
 
-		lua_pushlightuserdata(L,&heap_ref_table_registry_key); // ~,&heap_ref_table_registry_key
+		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~,&heap_ref_table_registry_key
 		lua_newtable(L);                                        // ~,&heap_ref_table_registry_key, heap_ref_table
 		lua_rawset(L, LUA_REGISTRYINDEX);                       // ~
 
-		lua_pushlightuserdata(L,&master_lua_state_registry_key); // ~,&master_lua_state_registry_key
+		lua_pushlightuserdata(L, &master_lua_state_registry_key); // ~,&master_lua_state_registry_key
 		lua_pushlightuserdata(L, (void*)L);                       // ~,&master_lua_state_registry_key, master_L
 		lua_rawset(L, LUA_REGISTRYINDEX);                         // ~
 

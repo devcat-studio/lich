@@ -46,10 +46,7 @@ namespace lich
 		RET_TUPLE& rets,
 		std::function<void(const std::string&)> errorHandler)
 	{
-		if (funcIdx < 0)
-		{
-			funcIdx = lua_gettop(L) + 1 - funcIdx;
-		}
+		funcIdx = unpseudo(L, funcIdx);
 		assert(lua_type(L, funcIdx) == LUA_TFUNCTION);
 
 		top_guard _(L);
@@ -82,16 +79,9 @@ namespace lich
 		const ARG_TUPLE& args,
 		RET_TUPLE& rets)
 	{
-		if (funcIdx < 0)
-		{
-			funcIdx = lua_gettop(L) + 1 + funcIdx;
-		}
 		std::pair<bool, std::string> rv(true, std::string());
-		auto ehandler = [&rv](const std::string& e) {
-			rv.first = false;
-			rv.second = e;
-		};
-		xpcall(L, funcIdx, args, rets, ehandler);
+		auto ehandler = [&rv](const std::string& e) { rv.second = e; };
+		rv.first = xpcall(L, funcIdx, args, rets, ehandler);
 		return rv;
 	}
 

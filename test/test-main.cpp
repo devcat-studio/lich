@@ -10,6 +10,9 @@ int main()
 	extern void program_test();
 	program_test();
 
+	extern void ref_test();
+	ref_test();
+
 	cout << "OK" << endl;
     return 0;
 }
