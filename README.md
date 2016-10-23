@@ -5,21 +5,25 @@
 lich는 루아 함수를 호출하거나, 컨테이너를 루아와 주고받거나,
 루아 값에 대한 참조를 유지하는 등의 일을 C++에서 간편하게 하게 해 줍니다.
 
+lich는 루아 5.1 에 대해 컴파일하고 테스트했습니다. 5.2나 5.3은 안해봤습니다.
+
 
 
 ## 사용 방법
 
 ### 준비
+- https://www.lua.org/ftp/lua-5.1.5.tar.gz 를 받아서 `src` 디렉토리 안의 내용을 lich 리파지터리의 `lua-5.1.5` 폴더 안에 복사해주세요.
 - `lich/all.h`를 인클루드하세요.
 - `luaL_newstate()` 호출 직후에 `lich::enable_ref(L)` 을 불러주세요.
 
 ### load_program
 ```
-lich::ref ref;
-pair<bool, string> result = lich::load_program(L, "return 42", "", ref);
+lich::ref fn;
+pair<bool, string> result = lich::load_program(L, "return 42", "", fn);
 ```
-- 루아 프로그램을 컴파일하여 루아 함수로 바꾼 뒤, 실행하지 않고 ref에 집어넣으려면 `load_program`을 사용하세요.
-- 컴파일이 성공하면 `result.first`에 `true`가 담기고, 루아 함수가 ref에 담깁니다.
+- 루아 프로그램을 컴파일하여 루아 함수로 바꾼 뒤, 실행하지 않고 참조를 갖고 있으려면 `load_program`을 사용하세요.
+- 컴파일이 성공하면 `result.first`에 `true`가 담기고, 루아 함수가 `fn`에 담깁니다.
+- 컴파일이 실패하면 `result.first`에 `false`가, `result.second`에는 에러 메시지가 담깁니다.
 
 ### run_program
 ```
