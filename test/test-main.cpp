@@ -79,6 +79,7 @@ int main()
 	MUST_EQUAL(lua_gettop(L), 0);
 	lua_close(L);
 
+	cout << "OK" << endl;
     return 0;
 }
 
