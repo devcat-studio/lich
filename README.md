@@ -37,7 +37,7 @@ assert(get<0>(rv) == 42);
 - 리턴값이 여럿이어도 받아올 수 있습니다. `tuple<int, int, string>` 과 같이 하면 됩니다.
 - 특정 C++ 타입을 가정하지 않고 루아 값 형태를 유지한 채로 참조만 가져올 수도 있습니다. `int` 대신 `lich::ref`를 사용해 보세요.
 
-### pcall
+### pcall(ref, ARG, RET)
 ```
 lich::ref ref;
 lich::load_program(L, "return 42", "", ref);
@@ -49,6 +49,36 @@ assert(get<0>(rv) == 42);
 - 루아 함수를 실행하려면 `pcall`을 사용하세요.
 - 리턴값의 의미는 `run_program`과 같습니다.
 - 인자와 리턴값 모두 `tuple`로 주고받습니다.
+
+### pcall(L, 전역 함수 이름, ARG, RET)
+```
+// type(1)
+tuple<string> rv;
+lich::pcall(L, "type", tuple<int>(1), rv);
+assert(get<0>(rv) == "number");
+```
+
+### pcall(L, (모듈과 함수 이름), ARG, RET)
+```
+// string.rep('아', 5)
+tuple<string> rv;
+lich::pcall(L, make_tuple("string", "rep"), make_tuple("아", 5), rv);
+assert(get<0>(rv), "아아아아아");
+```
+
+### pcall(L, (객체와 메서드 이름), ARG, RET)
+```
+// s = "justive rains from above"
+lich::push(L, "justive rains from above");
+lich::ref s;
+lich::to(L, -1, s);
+lua_pop(L, 1);
+
+// s:upper() == s.upper(s)
+tuple<string> rv;
+lich::pcall(L, tie(s, "upper"), tie(s), rv);
+assert(get<0>(rv), "JUSTIVE RAINS FROM ABOVE");
+```
 
 ### C++ 값으로 변환
 - 원하는 C++ 타입에 대해 `push`와 `to` 전역 함수를 오버로드하면
@@ -81,5 +111,4 @@ assert(get<0>(rv) == 42);
 
 
 ## 남은 일
-- `pcall`에서 전역 함수를 호출할 수 있게 하기
 - C++ 객체를 `shared_ptr`을 통해 루아에 노출하기

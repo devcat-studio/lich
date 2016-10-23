@@ -42,6 +42,9 @@
     <ClCompile Include="..\test\ref_test.cpp" />
     <ClCompile Include="..\test\test-main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{818F0C4C-4C1B-4467-B76B-F85461E6FE32}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
