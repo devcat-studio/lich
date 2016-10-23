@@ -65,12 +65,12 @@ void ref_test()
 
 		// ref1로 실행해본다
 		tuple<int> rv1;
-		lich::pcall(L, ref1, tuple<>(), rv1);
+		MUST_EQUAL(lich::pcall(L, ref1, tuple<>(), rv1).first, true);
 		MUST_EQUAL(get<0>(rv1), 42);
 
 		// ref2로 실행해본다
 		tuple<int> rv2;
-		lich::pcall(L, ref2, tuple<>(), rv2);
+		MUST_EQUAL(lich::pcall(L, ref2, tuple<>(), rv2).first, true);
 		MUST_EQUAL(get<0>(rv2), 42);
 	}
 
@@ -83,7 +83,7 @@ void ref_test()
 		MUST_EQUAL(lich::count_all_ref_for_debug(L), 1);
 
 		tuple<int> rv;
-		lich::pcall(L, ref, tuple<>(), rv);
+		MUST_EQUAL(lich::pcall(L, ref, tuple<>(), rv).first, true);
 		MUST_EQUAL(get<0>(rv), 42);
 	}
 
