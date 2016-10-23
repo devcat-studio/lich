@@ -56,5 +56,8 @@
     <ClCompile Include="..\lich\pcall.cpp">
       <Filter>lich</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\containers_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

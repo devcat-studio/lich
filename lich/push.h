@@ -3,6 +3,7 @@
 #include "lua.hpp"
 #include <string>
 #include <vector>
+#include <map>
 
 namespace lich
 {
@@ -32,7 +33,20 @@ namespace lich
 		for (size_t i = 0; i < vec.size(); ++i)
 		{
 			push(L, vec[i]);
-			lua_rawseti(L, -2, i + 1);
+			lua_rawseti(L, -2, (int)i + 1);
+		}
+	}
+
+	//-------------------------------------------------------------------------
+	template<typename K, typename V>
+	inline void push(lua_State* L, const std::map<K, V>& m)
+	{
+		lua_newtable(L);
+		for (const auto& kv : m)
+		{
+			push(L, kv.first);
+			push(L, kv.second);
+			lua_rawset(L, -3);
 		}
 	}
 }

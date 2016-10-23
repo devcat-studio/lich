@@ -1,5 +1,4 @@
-﻿#include "../lich/lua.hpp"
-#include "../lich/program.h"
+﻿#include "../lich/program.h"
 #include "../lich/ref.h"
 #include "must.h"
 
@@ -47,7 +46,7 @@ void program_test_do(lua_State* L)
 		MUST_EQUAL(result, make_pair(true, string()));
 
 		tuple<string, string, string> rv1;
-		result = lich::pcall(L, get<0>(rv0), make_tuple("빗발친다", "정의가", "하늘에서"), rv1);
+		result = lich::pcall(get<0>(rv0), make_tuple("빗발친다", "정의가", "하늘에서"), rv1);
 		MUST_EQUAL(result, make_pair(true, string()));
 		MUST_EQUAL(get<0>(rv1), "하늘에서");
 		MUST_EQUAL(get<1>(rv1), "정의가");

@@ -7,6 +7,9 @@ using namespace std;
 
 int main()
 {
+	extern void containers_test();
+	containers_test();
+
 	extern void program_test();
 	program_test();
 

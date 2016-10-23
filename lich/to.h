@@ -3,6 +3,7 @@
 #include "lua.hpp"
 #include <string>
 #include <vector>
+#include <map>
 
 namespace lich
 {
@@ -37,6 +38,7 @@ namespace lich
 	template<typename T>
 	inline void to(lua_State* L, int idx, std::vector<T>& vec)
 	{
+		vec.clear();
 		for (int i = 1; ; ++i)
 		{
 			lua_rawgeti(L, idx, i);
@@ -52,6 +54,24 @@ namespace lich
 				vec.push_back(val);
 				lua_pop(L, 1);
 			}
+		}
+	}
+
+	//-------------------------------------------------------------------------
+	template<typename K, typename V>
+	inline void to(lua_State* L, int idx, std::map<K, V>& m)
+	{
+		idx = unpseudo(L, idx);
+		m.clear();
+		lua_pushnil(L);
+		while (lua_next(L, idx) != 0)
+		{
+			K k;
+			V v;
+			to(L, -2, k);
+			to(L, -1, v);
+			m[k] = v;
+			lua_pop(L, 1);
 		}
 	}
 }

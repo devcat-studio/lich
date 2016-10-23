@@ -1,11 +1,12 @@
 ﻿#pragma once
 
-#include "lua.hpp"
 #include "pcall.h"
 #include "ref.h"
 #include <utility>
 #include <string>
 #include <tuple>
+
+struct lua_State;
 
 namespace lich
 {

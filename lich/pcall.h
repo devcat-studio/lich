@@ -90,12 +90,12 @@ namespace lich
 	// 에러가 발생하지 않으면 리턴.first = true
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	std::pair<bool, std::string> xpcall(
-		lua_State* L,
 		const ref& funcRef,
 		const ARG_TUPLE& args,
 		RET_TUPLE& rets,
 		std::function<void(const std::string&)> errorHandler)
 	{
+		lua_State* L = funcRef.lua_state();
 		top_guard _(L);
 		push(L, funcRef);
 		return xpcall(L, -1, args, rets, errorHandler);
@@ -106,11 +106,11 @@ namespace lich
 	// 에러가 발생하지 않으면 리턴.first = true
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	std::pair<bool, std::string> pcall(
-		lua_State* L,
 		const ref& funcRef,
 		const ARG_TUPLE& args,
 		RET_TUPLE& rets)
 	{
+		lua_State* L = funcRef.lua_state();
 		top_guard _(L);
 		push(L, funcRef);
 		return pcall(L, -1, args, rets);

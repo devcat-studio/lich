@@ -26,6 +26,7 @@ namespace lich
 		~ref();
 		void release();
 		bool is_valid() const { return (L != nullptr); }
+		lua_State* lua_state() const { assert(L); return L; }
 
 		// C++ 값으로 바로 변환
 		template<typename T>
