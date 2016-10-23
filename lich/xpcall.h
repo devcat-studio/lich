@@ -13,26 +13,26 @@ namespace lich
 	int error_handler_proxy(lua_State* L);
 
 	//-------------------------------------------------------------------------
-	template<typename TUPLE, int LEFT>
+	template<typename TUPLE, int I, int LEFT>
 	struct for_tuple
 	{
-		template<int I> static void push(lua_State* L, const TUPLE& t)
+		static void push(lua_State* L, const TUPLE& t)
 		{
 			lich::push(L, std::get<I>(t));
-			for_tuple<TUPLE, LEFT - 1>::push<I + 1>(L, t);
+			for_tuple<TUPLE, I + 1, LEFT - 1>::push(L, t);
 		};
-		template<int I> static void to(lua_State* L, int stack_base, TUPLE& t)
+		static void to(lua_State* L, int stack_base, TUPLE& t)
 		{
 			lich::to(L, stack_base + I, std::get<I>(t));
-			for_tuple<TUPLE, LEFT - 1>::to<I + 1>(L, stack_base, t);
+			for_tuple<TUPLE, I + 1, LEFT - 1>::to(L, stack_base, t);
 		};
 	};
 
-	template<typename TUPLE>
-	struct for_tuple<TUPLE, 0>
+	template<typename TUPLE, int I>
+	struct for_tuple<TUPLE, I, 0>
 	{
-		template<int I> static void push(lua_State*, const TUPLE&) {}
-		template<int I> static void to(lua_State*, int, TUPLE&) {}
+		static void push(lua_State*, const TUPLE&) {}
+		static void to(lua_State*, int, TUPLE&) {}
 	};
 
 	//-------------------------------------------------------------------------
@@ -59,11 +59,11 @@ namespace lich
 		lua_pushvalue(L, funcIdx);
 		constexpr size_t NARGS = std::tuple_size<ARG_TUPLE>::value;
 		constexpr size_t NRETS = std::tuple_size<RET_TUPLE>::value;
-		for_tuple<ARG_TUPLE, NARGS>::push<0>(L, args);
+		for_tuple<ARG_TUPLE, 0, NARGS>::push(L, args);
 		auto pcall_result = lua_pcall(L, (int)NARGS, (int)NRETS, errorHandlerIdx);
 		if (pcall_result == 0)
 		{
-			for_tuple<RET_TUPLE, NRETS>::to<0>(L, lua_gettop(L) - (int)NRETS + 1, rets);
+			for_tuple<RET_TUPLE, 0, NRETS>::to(L, lua_gettop(L) - (int)NRETS + 1, rets);
 			return true;
 		}
 		else
