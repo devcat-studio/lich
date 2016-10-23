@@ -15,6 +15,7 @@ namespace lich
 {
 	ref::ref()
 	{
+		L = nullptr;
 	}
 
 	ref::~ref()

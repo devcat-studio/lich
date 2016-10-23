@@ -10,7 +10,7 @@ namespace lich
 	// 자신의 포인터를 키로 하여, 루아 VM에 들어있는 특정 테이블에 항목을 만든다.
 	class ref
 	{
-		lua_State* L = nullptr;
+		lua_State* L;
 	public:
 		friend void push(lua_State* L, const ref& v);
 		friend void to(lua_State* L, int idx, ref& v);
