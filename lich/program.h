@@ -42,9 +42,7 @@ namespace lich
 		RET_TUPLE& ret)
 	{
 		top_guard _(L);
-		assert(lua_gettop(L) == 0);
 		auto compile_r = push_program(L, code, code_size, name);
-		assert(lua_gettop(L) == 1);
 		if (compile_r.first == false)
 		{
 			return compile_r;
