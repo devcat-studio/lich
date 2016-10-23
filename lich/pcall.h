@@ -24,6 +24,22 @@ namespace lich
 			lich::to(L, stack_base + I, std::get<I>(t));
 			for_tuple<TUPLE, I + 1, LEFT - 1>::to(L, stack_base, t);
 		};
+		static void repeat_lookup(lua_State* L, const TUPLE& t)
+		{
+			if (lua_type(L, -1) == LUA_TTABLE ||
+				lua_type(L, -1) == LUA_TUSERDATA ||
+				lua_type(L, -1) == LUA_TSTRING)
+			{
+				lich::push(L, std::get<I>(t));
+				lua_gettable(L, -2);
+				for_tuple<TUPLE, I + 1, LEFT - 1>::repeat_lookup(L, t);
+			}
+			else
+			{
+				lua_pop(L, 1);
+				lua_pushnil(L);
+			}
+		}
 	};
 
 	template<typename TUPLE, int I>
@@ -31,11 +47,11 @@ namespace lich
 	{
 		static void push(lua_State*, const TUPLE&) {}
 		static void to(lua_State*, int, TUPLE&) {}
+		static void repeat_lookup(lua_State*, const TUPLE&) {}
 	};
 
 	//-------------------------------------------------------------------------
-	// 에러가 발생하면 function<> 으로 콜백받는다.
-	// 에러가 발생하지 않으면 true 리턴.
+	// xpcall(스택 인덱스)
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	bool xpcall(
 		lua_State* L,
@@ -45,7 +61,6 @@ namespace lich
 		std::function<void(const std::string&)> errorHandler)
 	{
 		funcIdx = unpseudo(L, funcIdx);
-		assert(lua_type(L, funcIdx) == LUA_TFUNCTION);
 
 		top_guard _(L);
 		lua_pushlightuserdata(L, (void*)&errorHandler);
@@ -68,8 +83,7 @@ namespace lich
 	}
 
 	//-------------------------------------------------------------------------
-	// 에러가 발생한 시점의 내용과 스택 트레이스를 리턴.second로 받는다.
-	// 에러가 발생하지 않으면 리턴.first = true
+	// pcall(스택 인덱스)
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	std::pair<bool, std::string> pcall(
 		lua_State* L,
@@ -84,8 +98,69 @@ namespace lich
 	}
 
 	//-------------------------------------------------------------------------
-	// 에러가 발생한 시점의 내용과 스택 트레이스를 리턴.second로 받는다.
-	// 에러가 발생하지 않으면 리턴.first = true
+	inline void push_function(lua_State* L, const char* name)
+	{
+		lua_getglobal(L, name);
+	}
+
+	inline void push_function(lua_State* L, const ref& obj)
+	{
+		push(L, obj);
+	}
+
+	inline void push_function_seed(lua_State* L, const char* name)
+	{
+		lua_getglobal(L, name);
+	}
+
+	inline void push_function_seed(lua_State* L, const std::string& name)
+	{
+		lua_getglobal(L, name.c_str());
+	}
+
+	inline void push_function_seed(lua_State* L, const ref& obj)
+	{
+		push(L, obj);
+	}
+
+	template<typename... ARGS>
+	inline void push_function(lua_State* L, const std::tuple<ARGS...>& name)
+	{
+		push_function_seed(L, std::get<0>(name));
+		for_tuple<std::tuple<ARGS...>, 1, sizeof...(ARGS)-1>::repeat_lookup(L, name);
+	}
+
+	//-------------------------------------------------------------------------
+	// xpcall(글로벌/모듈 함수 이름)
+	template<typename FUNC, typename ARG_TUPLE, typename RET_TUPLE>
+	std::pair<bool, std::string> xpcall(
+		lua_State* L,
+		const FUNC& fn,
+		const ARG_TUPLE& args,
+		RET_TUPLE& rets,
+		std::function<void(const std::string&)> errorHandler)
+	{
+		top_guard _(L);
+		push_function(L, fn);
+		return xpcall(L, -1, args, rets, errorHandler);
+	}
+
+	//-------------------------------------------------------------------------
+	// pcall(글로벌/모듈 함수 이름)
+	template<typename FUNC, typename ARG_TUPLE, typename RET_TUPLE>
+	std::pair<bool, std::string> pcall(
+		lua_State* L,
+		const FUNC& fn,
+		const ARG_TUPLE& args,
+		RET_TUPLE& rets)
+	{
+		top_guard _(L);
+		push_function(L, fn);
+		return pcall(L, -1, args, rets);
+	}
+
+	//-------------------------------------------------------------------------
+	// xpcall(ref). L을 생략하는 버전.
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	std::pair<bool, std::string> xpcall(
 		const ref& funcRef,
@@ -93,24 +168,17 @@ namespace lich
 		RET_TUPLE& rets,
 		std::function<void(const std::string&)> errorHandler)
 	{
-		lua_State* L = funcRef.lua_state();
-		top_guard _(L);
-		push(L, funcRef);
-		return xpcall(L, -1, args, rets, errorHandler);
+		return xpcall(funcRef.lua_state(), funcRef, args, rets, errorHandler);
 	}
 
 	//-------------------------------------------------------------------------
-	// 에러가 발생한 시점의 내용과 스택 트레이스를 리턴.second로 받는다.
-	// 에러가 발생하지 않으면 리턴.first = true
+	// pcall(ref). L을 생략하는 버전.
 	template<typename ARG_TUPLE, typename RET_TUPLE>
 	std::pair<bool, std::string> pcall(
 		const ref& funcRef,
 		const ARG_TUPLE& args,
 		RET_TUPLE& rets)
 	{
-		lua_State* L = funcRef.lua_state();
-		top_guard _(L);
-		push(L, funcRef);
-		return pcall(L, -1, args, rets);
+		return pcall(funcRef.lua_state(), funcRef, args, rets);
 	}
 }

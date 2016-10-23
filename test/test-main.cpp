@@ -16,6 +16,9 @@ int main()
 	extern void ref_test();
 	ref_test();
 
+	extern void pcall_test();
+	pcall_test();
+
 	cout << "OK" << endl;
     return 0;
 }

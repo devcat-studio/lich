@@ -37,6 +37,7 @@
     <ClCompile Include="..\lich\program.cpp" />
     <ClCompile Include="..\test\build-lua.c" />
     <ClCompile Include="..\test\containers_test.cpp" />
+    <ClCompile Include="..\test\pcall_test.cpp" />
     <ClCompile Include="..\test\program_test.cpp" />
     <ClCompile Include="..\test\ref_test.cpp" />
     <ClCompile Include="..\test\test-main.cpp" />
