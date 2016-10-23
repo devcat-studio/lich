@@ -57,13 +57,13 @@ namespace lich
 		lua_pushcclosure(L, &error_handler_proxy, 1);
 		int errorHandlerIdx = lua_gettop(L);
 		lua_pushvalue(L, funcIdx);
-		constexpr int NARGS = (int)std::tuple_size<ARG_TUPLE>();
-		constexpr int NRETS = (int)std::tuple_size<RET_TUPLE>();
+		constexpr size_t NARGS = std::tuple_size<ARG_TUPLE>::value;
+		constexpr size_t NRETS = std::tuple_size<RET_TUPLE>::value;
 		for_tuple<ARG_TUPLE, NARGS>::push<0>(L, args);
-		auto pcall_result = lua_pcall(L, NARGS, NRETS, errorHandlerIdx);
+		auto pcall_result = lua_pcall(L, (int)NARGS, (int)NRETS, errorHandlerIdx);
 		if (pcall_result == 0)
 		{
-			for_tuple<RET_TUPLE, NRETS>::to<0>(L, lua_gettop(L) - NRETS + 1, rets);
+			for_tuple<RET_TUPLE, NRETS>::to<0>(L, lua_gettop(L) - (int)NRETS + 1, rets);
 			return true;
 		}
 		else
@@ -86,7 +86,7 @@ namespace lich
 		{
 			funcIdx = lua_gettop(L) + 1 + funcIdx;
 		}
-		auto rv = std::make_pair<bool, std::string>(true, std::string());
+		std::pair<bool, std::string> rv(true, std::string());
 		auto ehandler = [&rv](const std::string& e) {
 			rv.first = false;
 			rv.second = e;

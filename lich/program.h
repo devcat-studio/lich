@@ -4,6 +4,7 @@
 #include "xpcall.h"
 #include <utility>
 #include <string>
+#include <tuple>
 
 namespace lich
 {
@@ -49,7 +50,7 @@ namespace lich
 			return compile_r;
 		}
 		
-		tuple<> args;
+		std::tuple<> args;
 		return pcall(L, -1, args, ret);
 	}
 
