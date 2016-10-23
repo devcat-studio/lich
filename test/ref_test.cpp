@@ -1,9 +1,9 @@
 ﻿#include "../lich/lua.hpp"
+#include "../lich/push_to_string.h"
+#include "../lich/push_to_primitive.h"
 #include "../lich/program.h"
 #include "../lich/ref.h"
 #include "../lich/pcall.h"
-#include "../lich/push_to_string.h"
-#include "../lich/push_to_primitive.h"
 #include "must.h"
 
 using namespace std;
