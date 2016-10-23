@@ -24,14 +24,14 @@
     <ClInclude Include="..\lich\program.h">
       <Filter>lich</Filter>
     </ClInclude>
-    <ClInclude Include="..\lich\xpcall.h">
-      <Filter>lich</Filter>
-    </ClInclude>
     <ClInclude Include="..\lich\ref.h">
       <Filter>lich</Filter>
     </ClInclude>
     <ClInclude Include="..\test\must.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\pcall.h">
+      <Filter>lich</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,9 +44,6 @@
     <ClCompile Include="..\lich\program.cpp">
       <Filter>lich</Filter>
     </ClCompile>
-    <ClCompile Include="..\lich\xpcall.cpp">
-      <Filter>lich</Filter>
-    </ClCompile>
     <ClCompile Include="..\lich\ref.cpp">
       <Filter>lich</Filter>
     </ClCompile>
@@ -55,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="..\test\ref_test.cpp">
       <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lich\pcall.cpp">
+      <Filter>lich</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
