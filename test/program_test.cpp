@@ -1,5 +1,7 @@
 ﻿#include "../lich/program.h"
 #include "../lich/ref.h"
+#include "../lich/push_to_primitive.h"
+#include "../lich/push_to_string.h"
 #include "must.h"
 
 using namespace std;

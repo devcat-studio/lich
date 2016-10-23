@@ -12,12 +12,6 @@
     <ClInclude Include="..\lich\lua.hpp">
       <Filter>lich</Filter>
     </ClInclude>
-    <ClInclude Include="..\lich\push.h">
-      <Filter>lich</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lich\to.h">
-      <Filter>lich</Filter>
-    </ClInclude>
     <ClInclude Include="..\lich\top_guard.h">
       <Filter>lich</Filter>
     </ClInclude>
@@ -31,6 +25,18 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="..\lich\pcall.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push_to_primitive.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push_to_map.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push_to_vector.h">
+      <Filter>lich</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lich\push_to_string.h">
       <Filter>lich</Filter>
     </ClInclude>
   </ItemGroup>

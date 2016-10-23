@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "push.h"
-#include "to.h"
 #include <cassert>
+
+struct lua_State;
 
 namespace lich
 {

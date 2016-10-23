@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lich\lua.hpp" />
+    <ClInclude Include="..\lich\push_to_map.h" />
+    <ClInclude Include="..\lich\push_to_primitive.h" />
+    <ClInclude Include="..\lich\push_to_string.h" />
+    <ClInclude Include="..\lich\push_to_vector.h" />
     <ClInclude Include="..\lich\ref.h" />
     <ClInclude Include="..\lich\pcall.h" />
-    <ClInclude Include="..\lich\push.h" />
     <ClInclude Include="..\lich\program.h" />
-    <ClInclude Include="..\lich\to.h" />
     <ClInclude Include="..\lich\top_guard.h" />
     <ClInclude Include="..\test\must.h" />
   </ItemGroup>
