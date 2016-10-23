@@ -1,29 +1,9 @@
-#include <iostream>
 #include "../lich/lua.hpp"
 #include "../lich/program.h"
 #include "../lich/ref.h"
-
-#ifdef _WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-#else
-	#define _CrtDbgBreak()
-#endif
+#include "must.h"
 
 using namespace std;
-
-#define MUST_TRUE(cond)	\
-	if (!(cond)) { \
-		cerr << "FAILED: MUST_TRUE(" << #cond << ")" << endl; \
-		_CrtDbgBreak(); \
-	}
-
-#define MUST_EQUAL(a, b) \
-	if ((a) != (b)) { \
-		cerr << "FAILED: MUST_EQUAL(" << #a << ", " << #b << ")" << endl; \
-		_CrtDbgBreak(); \
-	}
-
 
 int main()
 {
