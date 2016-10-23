@@ -27,6 +27,9 @@
     <ClInclude Include="..\lich\xpcall.h">
       <Filter>lich</Filter>
     </ClInclude>
+    <ClInclude Include="..\lich\ref.h">
+      <Filter>lich</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test-main.cpp">
@@ -39,6 +42,9 @@
       <Filter>lich</Filter>
     </ClCompile>
     <ClCompile Include="..\lich\xpcall.cpp">
+      <Filter>lich</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lich\ref.cpp">
       <Filter>lich</Filter>
     </ClCompile>
   </ItemGroup>

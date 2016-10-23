@@ -9,7 +9,7 @@
 
 namespace lich
 {
-	int error_handler(lua_State* L);
+	int error_handler_proxy(lua_State* L);
 
 	//-------------------------------------------------------------------------
 	template<typename TUPLE, int LEFT>
@@ -52,8 +52,8 @@ namespace lich
 		assert(lua_type(L, funcIdx) == LUA_TFUNCTION);
 
 		top_guard _(L);
-		lua_pushlightuserdata(L, &errorHandler);
-		lua_pushcclosure(L, &error_handler, 1);
+		lua_pushlightuserdata(L, (void*)&errorHandler);
+		lua_pushcclosure(L, &error_handler_proxy, 1);
 		int errorHandlerIdx = lua_gettop(L);
 		lua_pushvalue(L, funcIdx);
 		constexpr int NARGS = (int)std::tuple_size<typename ARG_TUPLE>();

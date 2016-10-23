@@ -35,16 +35,4 @@ namespace lich
 			lua_rawseti(L, -2, i + 1);
 		}
 	}
-
-	//-------------------------------------------------------------------------
-	template<typename CAR, typename... CDR>
-	inline void pushv(lua_State* L, CAR&& car, CDR&&... cdr)
-	{
-		push(L, car);
-		pushv(L, cdr);
-	}
-
-	inline void pushv(lua_State*)
-	{
-	}
 }

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lich\lua.hpp" />
+    <ClInclude Include="..\lich\ref.h" />
     <ClInclude Include="..\lich\xpcall.h" />
     <ClInclude Include="..\lich\push.h" />
     <ClInclude Include="..\lich\program.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="..\lich\top_guard.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\lich\ref.cpp" />
     <ClCompile Include="..\lich\xpcall.cpp" />
     <ClCompile Include="..\lich\program.cpp" />
     <ClCompile Include="..\test\build-lua.c" />
