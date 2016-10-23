@@ -1,6 +1,7 @@
 #pragma once
 
 #include "push.h"
+#include "ref.h"
 #include "to.h"
 #include "top_guard.h"
 #include <functional>
@@ -41,9 +42,9 @@ namespace lich
 	bool xpcall(
 		lua_State* L,
 		int funcIdx,
-		std::function<void (const std::string&)> errorHandler,
 		const ARG_TUPLE& args,
-		RET_TUPLE& rets)
+		RET_TUPLE& rets,
+		std::function<void(const std::string&)> errorHandler)
 	{
 		if (funcIdx < 0)
 		{
@@ -90,7 +91,38 @@ namespace lich
 			rv.first = false;
 			rv.second = e;
 		};
-		xpcall(L, funcIdx, ehandler, args, rets);
+		xpcall(L, funcIdx, args, rets, ehandler);
 		return rv;
+	}
+
+	//-------------------------------------------------------------------------
+	// 에러가 발생한 시점의 내용과 스택 트레이스를 리턴.second로 받는다.
+	// 에러가 발생하지 않으면 리턴.first = true
+	template<typename ARG_TUPLE, typename RET_TUPLE>
+	std::pair<bool, std::string> xpcall(
+		lua_State* L,
+		const ref& funcRef,
+		const ARG_TUPLE& args,
+		RET_TUPLE& rets,
+		std::function<void(const std::string&)> errorHandler)
+	{
+		top_guard _(L);
+		push(L, funcRef);
+		return xpcall(L, -1, args, rets, errorHandler);
+	}
+
+	//-------------------------------------------------------------------------
+	// 에러가 발생한 시점의 내용과 스택 트레이스를 리턴.second로 받는다.
+	// 에러가 발생하지 않으면 리턴.first = true
+	template<typename ARG_TUPLE, typename RET_TUPLE>
+	std::pair<bool, std::string> pcall(
+		lua_State* L,
+		const ref& funcRef,
+		const ARG_TUPLE& args,
+		RET_TUPLE& rets)
+	{
+		top_guard _(L);
+		push(L, funcRef);
+		return pcall(L, -1, args, rets);
 	}
 }
