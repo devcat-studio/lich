@@ -50,5 +50,8 @@
     <ClCompile Include="..\lich\ref.cpp">
       <Filter>lich</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\program_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,11 +13,13 @@
 	if (!(cond)) { \
 		cerr << "FAILED: MUST_TRUE(" << #cond << ")" << endl; \
 		_CrtDbgBreak(); \
+		exit(1); \
 	}
 
 #define MUST_EQUAL(a, b) \
 	if ((a) != (b)) { \
 		cerr << "FAILED: MUST_EQUAL(" << #a << ", " << #b << ")" << endl; \
 		_CrtDbgBreak(); \
+		exit(1); \
 	}
 

@@ -33,6 +33,7 @@
     <ClCompile Include="..\lich\xpcall.cpp" />
     <ClCompile Include="..\lich\program.cpp" />
     <ClCompile Include="..\test\build-lua.c" />
+    <ClCompile Include="..\test\program_test.cpp" />
     <ClCompile Include="..\test\test-main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
