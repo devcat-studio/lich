@@ -7,8 +7,14 @@
 *.vcxproj.user
 *.o
 *.swp
-.depend
 
 Debug
 Release
 .vs
+
+Makefile
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+
+lich-test
