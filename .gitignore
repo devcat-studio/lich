@@ -5,6 +5,9 @@
 *.opendb
 *.vc.db
 *.vcxproj.user
+*.o
+*.swp
+.depend
 
 Debug
 Release

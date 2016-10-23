@@ -2,6 +2,7 @@
 #include "top_guard.h"
 #include "program.h"
 #include <cassert>
+#include <cstring>
 
 using namespace std;
 
