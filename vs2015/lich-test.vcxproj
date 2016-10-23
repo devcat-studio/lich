@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lich\all.h" />
     <ClInclude Include="..\lich\lua.hpp" />
     <ClInclude Include="..\lich\push_to_map.h" />
     <ClInclude Include="..\lich\push_to_primitive.h" />
