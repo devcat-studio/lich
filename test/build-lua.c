@@ -1,4 +1,4 @@
-// ¾Æ¿À-_- Å×½ºÆ®¸¸ Åë°úÇÏ°Ô ÃÖ¼ÒÇÑÀ¸·Î ÆÐÄ¡ {
+ï»¿// ì•„ì˜¤-_- í…ŒìŠ¤íŠ¸ë§Œ í†µê³¼í•˜ê²Œ ìµœì†Œí•œìœ¼ë¡œ íŒ¨ì¹˜ {
 #ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS 1
 #pragma warning(push, 2)
@@ -8,7 +8,7 @@
 
 #define LUA_TMPNAMBUFSIZE 32
 #define lua_tmpnam(buff, err) buff[0]=0;err=0;
-// ¾Æ¿À-_- Å×½ºÆ®¸¸ Åë°úÇÏ°Ô ÃÖ¼ÒÇÑÀ¸·Î ÆÐÄ¡ }
+// ì•„ì˜¤-_- í…ŒìŠ¤íŠ¸ë§Œ í†µê³¼í•˜ê²Œ ìµœì†Œí•œìœ¼ë¡œ íŒ¨ì¹˜ }
 
 #include "../lua-5.1.5/lapi.c"
 #include "../lua-5.1.5/lauxlib.c"

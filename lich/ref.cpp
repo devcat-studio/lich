@@ -1,4 +1,4 @@
-#include "ref.h"
+ï»¿#include "ref.h"
 #include "top_guard.h"
 #include "program.h"
 #include <cassert>
@@ -38,9 +38,9 @@ namespace lich
 
 	void push(lua_State* L, const ref& this_)
 	{
-		// ½ºÅÃ µŞÁ¤¸®¸¦ top_guard¿¡°Ô ¸Ã±â°í ½ÍÁö¸¸...
-		// push´Â ½ºÅÃÀ» ±×´ë·Î º¹¿øÇÏ°í ¸®ÅÏÇÏ´Â °ÍÀÌ ¾Æ´Ï¶ó °ªÀ» ÇÏ³ª ½×¾Æ¾ß ÇÏ¹Ç·Î
-		// top_guard¸¦ ¾²Áö ¸øÇÏ°í Á÷Á¢ ÇÑ´Ù
+		// ìŠ¤íƒ ë’·ì •ë¦¬ë¥¼ top_guardì—ê²Œ ë§¡ê¸°ê³  ì‹¶ì§€ë§Œ...
+		// pushëŠ” ìŠ¤íƒì„ ê·¸ëŒ€ë¡œ ë³µì›í•˜ê³  ë¦¬í„´í•˜ëŠ” ê²ƒì´ ì•„ë‹ˆë¼ ê°’ì„ í•˜ë‚˜ ìŒ“ì•„ì•¼ í•˜ë¯€ë¡œ
+		// top_guardë¥¼ ì“°ì§€ ëª»í•˜ê³  ì§ì ‘ í•œë‹¤
 		int old_top = lua_gettop(L);
 
 		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~, &heap_ref_table_registry_key

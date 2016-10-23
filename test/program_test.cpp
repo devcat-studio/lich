@@ -1,4 +1,4 @@
-#include "../lich/lua.hpp"
+ï»¿#include "../lich/lua.hpp"
 #include "../lich/program.h"
 #include "../lich/ref.h"
 #include "must.h"
@@ -9,7 +9,7 @@ void program_test_do(lua_State* L)
 {
 	MUST_EQUAL(lua_gettop(L), 0);
 
-	// run_program/ºó ÇÁ·Î±×·¥
+	// run_program/ë¹ˆ í”„ë¡œê·¸ë¨
 	{
 		tuple<> rv;
 		MUST_EQUAL(
@@ -18,7 +18,7 @@ void program_test_do(lua_State* L)
 	}
 	MUST_EQUAL(lua_gettop(L), 0);
 
-	// run_program/¸®ÅÏ ÇÏ³ª
+	// run_program/ë¦¬í„´ í•˜ë‚˜
 	{
 		tuple<int> rv;
 		MUST_EQUAL(
@@ -28,7 +28,7 @@ void program_test_do(lua_State* L)
 	}
 	MUST_EQUAL(lua_gettop(L), 0);
 
-	// run_program/¿©·¯ Å¸ÀÔ ¸®ÅÏ
+	// run_program/ì—¬ëŸ¬ íƒ€ì… ë¦¬í„´
 	{
 		tuple<string, float, double> rv;
 		auto result = lich::run_program(L, "return '5', 7, 3", "", rv);
@@ -47,15 +47,15 @@ void program_test_do(lua_State* L)
 		MUST_EQUAL(result, make_pair(true, string()));
 
 		tuple<string, string, string> rv1;
-		result = lich::pcall(L, get<0>(rv0), make_tuple("ºø¹ßÄ£´Ù", "Á¤ÀÇ°¡", "ÇÏ´Ã¿¡¼­"), rv1);
+		result = lich::pcall(L, get<0>(rv0), make_tuple("ë¹—ë°œì¹œë‹¤", "ì •ì˜ê°€", "í•˜ëŠ˜ì—ì„œ"), rv1);
 		MUST_EQUAL(result, make_pair(true, string()));
-		MUST_EQUAL(get<0>(rv1), "ÇÏ´Ã¿¡¼­");
-		MUST_EQUAL(get<1>(rv1), "Á¤ÀÇ°¡");
-		MUST_EQUAL(get<2>(rv1), "ºø¹ßÄ£´Ù");
+		MUST_EQUAL(get<0>(rv1), "í•˜ëŠ˜ì—ì„œ");
+		MUST_EQUAL(get<1>(rv1), "ì •ì˜ê°€");
+		MUST_EQUAL(get<2>(rv1), "ë¹—ë°œì¹œë‹¤");
 	}
 	MUST_EQUAL(lua_gettop(L), 0);
 
-	// run program/ÄÄÆÄÀÏ ¿¡·¯
+	// run program/ì»´íŒŒì¼ ì—ëŸ¬
 	{
 		tuple<> rv0;
 		auto result = lich::run_program(L, "local local", "", rv0);
@@ -65,7 +65,7 @@ void program_test_do(lua_State* L)
 	}
 	MUST_EQUAL(lua_gettop(L), 0);
 
-	// run program/·±Å¸ÀÓ ¿¡·¯
+	// run program/ëŸ°íƒ€ì„ ì—ëŸ¬
 	{
 		tuple<> rv0;
 		auto result = lich::run_program(L, "print('b' + 'c')", "", rv0);
@@ -78,7 +78,7 @@ void program_test_do(lua_State* L)
 
 void program_test()
 {
-	// openlibs ÇÏ°í Å×½ºÆ®
+	// openlibs í•˜ê³  í…ŒìŠ¤íŠ¸
 	{
 		lua_State* L = luaL_newstate();
 		luaL_openlibs(L);
@@ -87,7 +87,7 @@ void program_test()
 		lua_close(L);
 	}
 
-	// openlibs ¾øÀÌ Å×½ºÆ® (debug ¶óÀÌºê·¯¸® ¾øÀ½)
+	// openlibs ì—†ì´ í…ŒìŠ¤íŠ¸ (debug ë¼ì´ë¸ŒëŸ¬ë¦¬ ì—†ìŒ)
 	{
 		lua_State* L = luaL_newstate();
 		lich::enable_ref(L);
