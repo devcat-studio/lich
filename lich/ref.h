@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "lua.hpp"
 #include <cassert>
 
 struct lua_State;
