@@ -5,6 +5,7 @@
 #include <functional>
 #include <tuple>
 #include <cassert>
+#include <string>
 
 namespace lich
 {
