@@ -31,7 +31,7 @@ namespace lich
 
 		// C++ 값으로 바로 변환
 		template<typename T>
-		void to(T& v)
+		void to(T& v) const
 		{
 			assert(L);
 			lich::push(L, *this);
