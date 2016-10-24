@@ -5,6 +5,7 @@
 #endif
 
 #define __STRICT_ANSI__
+#define _ANSI_SOURCE
 
 #define LUA_TMPNAMBUFSIZE 32
 #define lua_tmpnam(buff, err) buff[0]=0;err=0;
