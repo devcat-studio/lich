@@ -42,6 +42,9 @@
     <ClInclude Include="..\lich\all.h">
       <Filter>lich</Filter>
     </ClInclude>
+    <ClInclude Include="..\lich\push_to_shared_ptr.h">
+      <Filter>lich</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test-main.cpp">
@@ -69,6 +72,9 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="..\test\pcall_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\shared_ptr_test.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,6 +7,9 @@ using namespace std;
 
 int main()
 {
+	extern void shared_ptr_test();
+	shared_ptr_test();
+
 	extern void containers_test();
 	containers_test();
 

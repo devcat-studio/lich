@@ -23,6 +23,7 @@
     <ClInclude Include="..\lich\lua.hpp" />
     <ClInclude Include="..\lich\push_to_map.h" />
     <ClInclude Include="..\lich\push_to_primitive.h" />
+    <ClInclude Include="..\lich\push_to_shared_ptr.h" />
     <ClInclude Include="..\lich\push_to_string.h" />
     <ClInclude Include="..\lich\push_to_vector.h" />
     <ClInclude Include="..\lich\ref.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\test\pcall_test.cpp" />
     <ClCompile Include="..\test\program_test.cpp" />
     <ClCompile Include="..\test\ref_test.cpp" />
+    <ClCompile Include="..\test\shared_ptr_test.cpp" />
     <ClCompile Include="..\test\test-main.cpp" />
   </ItemGroup>
   <ItemGroup>
