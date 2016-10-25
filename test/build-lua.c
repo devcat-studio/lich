@@ -1,15 +1,16 @@
-﻿// 아오-_- 테스트만 통과하게 최소한으로 패치 {
-#ifdef _WIN32
+﻿#ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS 1
 #pragma warning(push, 2)
 #endif
 
-#define __STRICT_ANSI__
 #define _ANSI_SOURCE
 
-#define LUA_TMPNAMBUFSIZE 32
-#define lua_tmpnam(buff, err) buff[0]=0;err=0;
-// 아오-_- 테스트만 통과하게 최소한으로 패치 }
+#define luaall_c
+#define LUA_CORE
+#define LUA_USE_APICHECK
+
+#include "../lua-5.1.5/luaconf.h"
+#undef LUA_DL_DLL
 
 #include "../lua-5.1.5/lapi.c"
 #include "../lua-5.1.5/lauxlib.c"
