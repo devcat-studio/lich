@@ -1,6 +1,10 @@
-﻿#ifdef _WIN32
+﻿#include <stdio.h>
+
+#ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS 1
 #pragma warning(push, 2)
+#else
+#define __STRICT__ANSI__
 #endif
 
 #define _ANSI_SOURCE
