@@ -30,6 +30,7 @@
     <ClInclude Include="..\lich\pcall.h" />
     <ClInclude Include="..\lich\program.h" />
     <ClInclude Include="..\lich\top_guard.h" />
+    <ClInclude Include="..\lich\unpseudo.h" />
     <ClInclude Include="..\test\must.h" />
   </ItemGroup>
   <ItemGroup>
