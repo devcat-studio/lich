@@ -101,7 +101,9 @@ namespace lich
 		assert(lua_istable(L, -1) && "didn't call lich::enable_ref()?");
 
 		lua_call(L, 1, 1);
-		return lua_tointeger(L, -1);
+
+		// ref 테이블 식별용으로 넣은 'lich' 때문에 하나를 뺀다.
+		return lua_tointeger(L, -1) - 1;
 	}
 
 	void enable_ref(lua_State* L)
@@ -111,16 +113,40 @@ namespace lich
 #endif
 		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~,&heap_ref_table_registry_key
 		lua_rawget(L, LUA_REGISTRYINDEX);                       // ~,&heap_ref_table_registry_key, heap_ref_table?
-		assert(lua_isnil(L, -1) && "lich::enable_ref() must be called once and only once.");
-		lua_pop(L, 1);
+		if (lua_isnil(L, -1))
+		{
+			lua_pop(L, 1);
 
-		lua_pushlightuserdata(L, &heap_ref_table_registry_key); // ~,&heap_ref_table_registry_key
-		lua_newtable(L);                                        // ~,&heap_ref_table_registry_key, heap_ref_table
-		lua_rawset(L, LUA_REGISTRYINDEX);                       // ~
+			lua_pushlightuserdata(L, &heap_ref_table_registry_key);    // ~,&heap_ref_table_registry_key
+			lua_newtable(L);                                           // ~,&heap_ref_table_registry_key, heap_ref_table
+			lua_pushstring(L, "https://github.com/lee-seungjae/lich"); // ~,&heap_ref_table_registry_key, heap_ref_table, https://...
+			lua_setfield(L, -2, "lich");                               // ~,&heap_ref_table_registry_key, heap_ref_table
+			lua_rawset(L, LUA_REGISTRYINDEX);                          // ~
 
-		lua_pushlightuserdata(L, &master_lua_state_registry_key); // ~,&master_lua_state_registry_key
-		lua_pushlightuserdata(L, (void*)L);                       // ~,&master_lua_state_registry_key, master_L
-		lua_rawset(L, LUA_REGISTRYINDEX);                         // ~
+			lua_pushlightuserdata(L, &master_lua_state_registry_key);  // ~,&master_lua_state_registry_key
+			lua_pushlightuserdata(L, (void*)L);                        // ~,&master_lua_state_registry_key, master_L
+			lua_rawset(L, LUA_REGISTRYINDEX);                          // ~
+		}
+		else if (lua_istable(L, -1))
+		{
+			lua_getfield(L, -1, "lich");
+			const char* s = lua_tostring(L, -1);
+			s = s ? s : "";
+			if (strcmp(s, "https://github.com/lee-seungjae/lich") == 0)
+			{
+				lua_pop(L, 2);
+			}
+			else
+			{
+				// 복구 불가능한 심각한 에러.
+				luaL_error(L, "lich: LUA_REGISTRY[heap_ref_table_registry_key].lich is wrong");
+			}
+		}
+		else
+		{
+			// 복구 불가능한 심각한 에러.
+			luaL_error(L, "lich: LUA_REGISTRY[heap_ref_table_registry_key] is not a table");
+		}
 
 #ifdef _DEBUG
 		assert(old_top == lua_gettop(L));
