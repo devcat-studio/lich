@@ -3,6 +3,7 @@
 #include "../lich/program.h"
 #include "../lich/ref.h"
 #include "must.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -85,6 +86,31 @@ void pcall_test()
 		tuple<string> rv;
 		MUST_TRUE(lich::pcall(L, tie(s, "upper"), tie(s), rv).first);
 		MUST_EQUAL(get<0>(rv), "JUSTIVE RAINS FROM ABOVE");
+	}
+
+	// 스택 트레이스
+	{
+		tuple<lich::ref> fn;
+		lich::run_program(
+			L,
+			"	local function R(n)"
+			"\n		if n == 0 then"
+			"\n			return 'a' + 'b'"
+			"\n		else"
+			"\n			return R(n - 1) .. '*'"
+			"\n		end"
+			"\n	end"
+			"\n	return R",
+			"",
+			fn);
+		
+		tuple<> rv;
+		auto callResult = lich::pcall(get<0>(fn), make_tuple(5), rv);
+		auto newlineCount = count_if(
+			callResult.second.begin(),
+			callResult.second.end(),
+			[](char c) { return c == '\n'; });
+		MUST_EQUAL(newlineCount, 7);
 	}
 
 	lua_close(L);
