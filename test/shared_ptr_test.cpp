@@ -27,5 +27,22 @@ void shared_ptr_test()
 		MUST_EQUAL(s.use_count(), 2);
 	}
 
+	// push, to 두번씩
+	{
+		auto a = make_shared<string>("프로의 손에");
+		auto b = make_shared<string>("맡기십시오");
+		lich::push(L, a);
+		lich::push(L, b);
+
+		shared_ptr<string> a_;
+		shared_ptr<string> b_;
+		lich::to(L, 1, a_);
+		lich::to(L, 2, b_);
+		MUST_EQUAL(a.get(), a_.get());
+		MUST_EQUAL(b.get(), b_.get());
+
+		lua_pop(L, 2);
+	}
+
 	lua_close(L);
 }

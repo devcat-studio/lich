@@ -49,9 +49,9 @@ namespace lich
 	{
 		p.reset();
 		idx = unpseudo(L, idx);
-		if (!lua_isuserdata(L, 1)) { return; }
-		if (lua_objlen(L, 1) != sizeof(shared_ptr_userdata<T>)) { return; }
-		void* vptr = lua_touserdata(L, 1);
+		if (!lua_isuserdata(L, idx)) { return; }
+		if (lua_objlen(L, idx) != sizeof(shared_ptr_userdata<T>)) { return; }
+		void* vptr = lua_touserdata(L, idx);
 		auto* s = reinterpret_cast<shared_ptr_userdata<T>*>(vptr);
 		if (s->sizeOfT != sizeof(T)) { return; }
 		p = s->ptr;
