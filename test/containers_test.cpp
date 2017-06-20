@@ -36,6 +36,33 @@ void containers_test()
 		MUST_EQUAL(mm[573], "오백칠십삼");
 	}
 
+	// unordered_map
+	{
+		lich::ref fn;
+		string source =
+			"\n"
+			"\n	return function(t)"
+			"\n		local rv = {}"
+			"\n		for k, v in pairs(t) do"
+			"\n			rv[v] = k"
+			"\n		end"
+			"\n		return rv"
+			"\n	end";
+		tuple<lich::ref&> run_result(fn);
+		MUST_TRUE(lich::run_program(L, source, "", run_result).first);
+		MUST_TRUE(fn.is_valid());
+
+		unordered_map<string, int> m;
+		m["사십이"] = 42;
+		m["오백칠십삼"] = 573;
+
+		tuple<unordered_map<int, string>> ret;
+		MUST_TRUE(lich::pcall(fn, tie(m), ret).first);
+		auto& mm = get<0>(ret);
+		MUST_EQUAL(mm[42], "사십이");
+		MUST_EQUAL(mm[573], "오백칠십삼");
+	}
+
 	// vector
 	{
 		lich::ref fn;

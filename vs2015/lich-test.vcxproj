@@ -25,6 +25,7 @@
     <ClInclude Include="..\lich\push_to_primitive.h" />
     <ClInclude Include="..\lich\push_to_shared_ptr.h" />
     <ClInclude Include="..\lich\push_to_string.h" />
+    <ClInclude Include="..\lich\push_to_unordered_map.h" />
     <ClInclude Include="..\lich\push_to_vector.h" />
     <ClInclude Include="..\lich\ref.h" />
     <ClInclude Include="..\lich\pcall.h" />
